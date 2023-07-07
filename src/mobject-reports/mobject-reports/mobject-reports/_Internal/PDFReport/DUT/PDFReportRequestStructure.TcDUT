@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="PDFReportRequestStructure" Id="{537e0dd2-e1ba-4511-ae56-0b9f99e1b93d}">
+    <Declaration><![CDATA[{attribute 'pack_mode' := '1'}
+TYPE PDFReportRequestStructure :
+STRUCT
+	VariableName : T_MAXSTRING;
+	LocalNetId : T_AmsNetId;
+	LocalPort : UINT;
+	TemplateName : T_MAXSTRING;
+	FileName : T_MAXSTRING;
+	FilePath : T_MAXSTRING;
+	AppSystemInfo : AppSystemInfoStructure;
+	TaskSystemInfo : TaskSystemInfoStructure;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

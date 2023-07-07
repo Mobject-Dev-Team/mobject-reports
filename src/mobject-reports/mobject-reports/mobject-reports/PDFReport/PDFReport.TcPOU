@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="PDFReport" Id="{787c95bb-c8ef-408d-8304-be2e76ca35aa}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PDFReport IMPLEMENTS I_ReportGenerator
+VAR
+	reportGenerateCommand : ReportGenerateCommand;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="Busy" Id="{572c63a6-3697-4981-8b18-dac8d61f36b8}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Busy : BOOL]]></Declaration>
+      <Get Name="Get" Id="{1655fb7e-0d61-4aaf-9dc2-99be0833b8ab}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Busy := reportGenerateCommand.Busy;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="CyclicCall" Id="{cec7a61a-94b2-451a-80ac-4505bac16416}">
+      <Declaration><![CDATA[METHOD PUBLIC CyclicCall
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF reportGenerateCommand.Busy THEN
+	reportGenerateCommand.CyclicCall();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Done" Id="{88367a11-3f10-4f05-9bab-7bd34a4217bc}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Done : BOOL]]></Declaration>
+      <Get Name="Get" Id="{7bf33be6-dc4f-4f67-8f3b-5d628f4983cd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Done := reportGenerateCommand.Done;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{6a7f5244-a9b9-4846-b9fc-7a542d0ad1a5}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Error : BOOL]]></Declaration>
+      <Get Name="Get" Id="{6434d8a4-9a87-44e9-9381-3938d5bf0e4d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := reportGenerateCommand.Error;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="ErrorId" Id="{575e68ce-f570-4df3-a383-389888c2e549}">
+      <Declaration><![CDATA[PROPERTY PUBLIC ErrorId : UDINT]]></Declaration>
+      <Get Name="Get" Id="{f991e5f6-fc52-42ed-9487-85a357886abc}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ErrorId := reportGenerateCommand.ErrorId;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Generate" Id="{4fa26abb-1031-47cf-9e78-31864f92535c}">
+      <Declaration><![CDATA[METHOD PUBLIC Generate
+VAR_INPUT
+	SourceData : ANY; // SourceData must be a Structure DUT
+	TemplateName : T_MAXSTRING;
+	FileName : T_MAXSTRING;
+	FilePath : T_MAXSTRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[reportGenerateCommand.Setup(
+	SourceData := SourceData,
+	TemplateName := TemplateName,
+	FileName := FileName,
+	FilePath := FilePath
+);
+
+reportGenerateCommand.Execute();]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

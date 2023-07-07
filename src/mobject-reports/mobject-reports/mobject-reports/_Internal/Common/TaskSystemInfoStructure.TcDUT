@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="TaskSystemInfoStructure" Id="{baea24f4-c499-4915-b2e0-f6440878d719}">
+    <Declaration><![CDATA[{attribute 'pack_mode' := '1'}
+TYPE TaskSystemInfoStructure :
+STRUCT
+	CycleTime : UDINT;
+	Priority : UINT;
+	AdsPort : UINT;
+	CycleCount : UDINT;
+	DcTaskTime : LINT;
+	LastExecTime : UDINT;
+	FirstCycle : BOOL; 
+	CycleTimeExceeded : BOOL; 
+	InCallAfterOutputUpdate : BOOL; 
+	RTViolation : BOOL;
+	TaskName : STRING(63);
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

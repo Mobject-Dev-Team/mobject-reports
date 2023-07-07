@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="GetAppSystemInfo" Id="{a5fdc8cc-4eec-43d4-a795-01d2c0d8c5ef}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+FUNCTION GetAppSystemInfo : AppSystemInfoStructure]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[GetAppSystemInfo.AdsPort := TwinCAT_SystemInfoVarList._AppInfo.AdsPort;
+GetAppSystemInfo.AppName := TwinCAT_SystemInfoVarList._AppInfo.AppName;
+GetAppSystemInfo.AppTimestamp :=TwinCAT_SystemInfoVarList. _AppInfo.AppTimestamp;
+GetAppSystemInfo.BootDataLoaded := TwinCAT_SystemInfoVarList._AppInfo.BootDataLoaded;
+GetAppSystemInfo.BSODOccured := TwinCAT_SystemInfoVarList._AppInfo.BSODOccured;
+GetAppSystemInfo.Flags := TwinCAT_SystemInfoVarList._AppInfo.Flags;
+GetAppSystemInfo.KeepOutputsOnBP := TwinCAT_SystemInfoVarList._AppInfo.KeepOutputsOnBP;
+GetAppSystemInfo.LicensesPending := TwinCAT_SystemInfoVarList._AppInfo.LicensesPending;
+GetAppSystemInfo.LoggedIn := TwinCAT_SystemInfoVarList._AppInfo.LoggedIn;
+GetAppSystemInfo.OldBootData := TwinCAT_SystemInfoVarList._AppInfo.OldBootData;
+GetAppSystemInfo.OnlineChangeCnt := TwinCAT_SystemInfoVarList._AppInfo.OnlineChangeCnt;
+GetAppSystemInfo.PersistentStatus := TwinCAT_SystemInfoVarList._AppInfo.PersistentStatus;
+GetAppSystemInfo.ProjectName := TwinCAT_SystemInfoVarList._AppInfo.ProjectName;
+GetAppSystemInfo.ShutdownInProgress := TwinCAT_SystemInfoVarList._AppInfo.ShutdownInProgress;
+GetAppSystemInfo.TaskCnt := TwinCAT_SystemInfoVarList._AppInfo.TaskCnt;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

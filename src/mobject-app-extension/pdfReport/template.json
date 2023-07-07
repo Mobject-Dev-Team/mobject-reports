@@ -1,0 +1,5 @@
+{
+    "content": [{
+        "text": "Machine Name: <%= myBool %>.  Other variable <%= $FileName %>"
+    }]
+}

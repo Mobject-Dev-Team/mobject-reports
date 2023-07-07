@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="GetTaskSystemInfo" Id="{647ff303-9236-4476-be69-4f6bdb9fa8dc}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+FUNCTION GetTaskSystemInfo : TaskSystemInfoStructure
+VAR
+	getTaskIndex : GETCURTASKINDEX;
+	taskInfo : PlcTaskSystemInfo;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[getTaskIndex();
+taskInfo := TwinCAT_SystemInfoVarList._TaskInfo[getTaskIndex.index];
+GetTaskSystemInfo.AdsPort := taskInfo.AdsPort;
+GetTaskSystemInfo.CycleCount := taskInfo.CycleCount;
+GetTaskSystemInfo.CycleTime := taskInfo.CycleTime;
+GetTaskSystemInfo.CycleTimeExceeded := taskInfo.CycleTimeExceeded;
+GetTaskSystemInfo.DcTaskTime := taskInfo.DcTaskTime;
+GetTaskSystemInfo.FirstCycle := taskInfo.FirstCycle;
+GetTaskSystemInfo.InCallAfterOutputUpdate := taskInfo.InCallAfterOutputUpdate;
+GetTaskSystemInfo.LastExecTime := taskInfo.LastExecTime;
+GetTaskSystemInfo.Priority := taskInfo.Priority;
+GetTaskSystemInfo.RTViolation := taskInfo.RTViolation;
+GetTaskSystemInfo.TaskName := taskInfo.TaskName;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

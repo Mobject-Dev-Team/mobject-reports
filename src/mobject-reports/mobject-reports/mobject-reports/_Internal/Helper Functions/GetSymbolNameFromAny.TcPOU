@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="GetSymbolNameFromAny" Id="{55812696-0334-4dfc-a76c-99b11981fc55}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+FUNCTION GetSymbolNameFromAny : T_MAXSTRING
+VAR_INPUT
+	Symbol : ANY;
+END_VAR
+VAR
+	hr : HRESULT;
+	appInfo : ITcIecApplicationInfo;
+
+	symbolNameLength : UDINT;	
+	pSymbolName : POINTER TO BYTE;
+	pSymbolNameAsString : POINTER TO STRING;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[REPEAT
+	
+	// if it's not an enum then exit
+	IF Symbol.TypeClass <> __SYSTEM.TYPE_CLASS.TYPE_USERDEF THEN 
+		EXIT; 
+	END_IF
+	
+	// ------------------------------------------------
+	// Get the application info object
+	// ------------------------------------------------	
+	IF TwinCAT_SystemInfoVarList._AppInfo.ObjId = 0 THEN 
+		EXIT; 
+	END_IF
+
+	// get the application info object
+	hr := FW_ObjMgr_GetObjectInstance(TwinCAT_SystemInfoVarList._AppInfo.ObjId, TC_GLOBAL_IID_LIST.IID_ITcIecApplicationInfo, ADR(appInfo));
+	IF FAILED(hr) THEN 
+		EXIT; 
+	END_IF
+	
+	// ------------------------------------------------
+	// Get the symbol name based on the symbol address
+	// ------------------------------------------------
+	
+	// get the symbol name length
+	hr := appInfo.GetSymbolNameByAddress(0, Symbol.pValue, symbolNameLength, 0);
+	IF symbolNameLength = 0 THEN 
+		EXIT; 
+	END_IF
+	
+	// make string to hold the symbol name
+	pSymbolName := __NEW(BYTE,symbolNameLength);
+	
+	// get symbol name by address
+	hr := appInfo.GetSymbolNameByAddress(symbolNameLength, Symbol.pValue, symbolNameLength, pSymbolName);
+	IF FAILED(hr) THEN 
+		EXIT; 
+	END_IF
+	
+	// convert the pointer to a pointer to string;
+	pSymbolNameAsString := pSymbolName;
+	
+UNTIL TRUE // this allows us to exit out of the repeat at any point.
+END_REPEAT
+
+IF pSymbolNameAsString <> 0 THEN
+	GetSymbolNameFromAny := pSymbolNameAsString^;
+END_IF
+
+// tidy app info before leaving
+FW_SafeRelease(ADR(appInfo));
+
+// tidy symbol name before leaving
+IF pSymbolName <> 0 THEN
+	__DELETE(pSymbolName);
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

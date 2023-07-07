@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="ReportGenerateCommand" Id="{7e016800-5759-4c3b-a1c9-3228d7799805}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK ReportGenerateCommand EXTENDS AsyncCommand
+VAR
+	requestData : PDFReportRequestStructure;
+	responseData : PDFReportResponseStructure;
+	getLocalAmsNetId : FB_GetLocalAmsNetId;
+	adsReadWriter : ADSRDWRTEX;
+	state : (GET_LOCAL_DETAILS, SEND_REQUEST) := GET_LOCAL_DETAILS;
+END_VAR
+VAR CONSTANT
+	MOBJECT_REPORT_APP_AMSPORT : T_AmsPort := 27272;
+	MOBJECT_REPORT_APP_GROUP : UDINT := 10;
+	MOBJECT_REPORT_APP_OFFSET : UDINT := 100;
+	MOBJECT_REPORT_APP_OK : UDINT := 200;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Protected" Id="{9ec25441-c158-4f20-81cf-49a1594490aa}" />
+    <Method Name="OnExecuting" Id="{b656c91f-f3c3-4671-92a7-edbb9dc4b1a2}" FolderPath="Protected\">
+      <Declaration><![CDATA[METHOD PROTECTED OnExecuting
+VAR_INPUT
+	StateControl : I_AsyncCommandStateControl;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE state OF
+	
+	GET_LOCAL_DETAILS : 
+	
+		getLocalAmsNetId(bExecute := TRUE);
+		IF getLocalAmsNetId.bBusy THEN
+			RETURN;
+		END_IF
+		
+		IF getLocalAmsNetId.bError THEN
+			StateControl.Error(getLocalAmsNetId.nErrId);
+			RETURN;
+		END_IF
+		
+		requestData.LocalNetId := getLocalAmsNetId.AddrString;
+		requestData.LocalPort := TwinCAT_SystemInfoVarList._AppInfo.AdsPort;;
+		
+		state := SEND_REQUEST;
+		
+	SEND_REQUEST:
+			
+		AdsReadWriter(
+			NETID := , 
+			PORT := MOBJECT_REPORT_APP_AMSPORT, 
+			IDXGRP := MOBJECT_REPORT_APP_GROUP,
+			IDXOFFS := MOBJECT_REPORT_APP_OFFSET,
+			WRITELEN := SIZEOF(requestData), 
+			READLEN := SIZEOF(responseData), 
+			SRCADDR := ADR(requestData),  
+			DESTADDR := ADR(responseData), 
+			WRTRD := TRUE
+		);
+		
+		IF AdsReadWriter.BUSY THEN
+			RETURN;
+		END_IF
+		
+		IF AdsReadWriter.ERR THEN
+			StateControl.Error(AdsReadWriter.ERRID);
+			RETURN;
+		END_IF
+		
+//		IF responseData.ResponseCode <> MOBJECT_REPORT_APP_OK THEN
+//			StateControl.Error(responseData.ResponseCode);
+//			RETURN;
+//		END_IF
+		
+		StateControl.Next();
+	
+END_CASE
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnInitializing" Id="{369f9471-8431-4456-8103-c95a820cefa9}" FolderPath="Protected\">
+      <Declaration><![CDATA[METHOD PROTECTED OnInitializing
+VAR_INPUT
+	StateControl : I_AsyncCommandStateControl;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[getLocalAmsNetId(bExecute := FALSE);
+AdsReadWriter(WRTRD	:= FALSE);
+StateControl.Next();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Setup" Id="{a016d887-81cc-471c-88b5-6668a6119f1b}">
+      <Declaration><![CDATA[METHOD PUBLIC Setup
+VAR_INPUT
+	SourceData : ANY;
+	TemplateName : T_MAXSTRING;
+	FileName : T_MAXSTRING;
+	FilePath : T_MAXSTRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT Busy THEN
+	requestData.VariableName := GetSymbolNameFromAny(SourceData); 
+	requestData.TemplateName := TemplateName;
+	requestData.FileName := FileName;
+	requestData.FilePath := FilePath;
+	requestData.AppSystemInfo := GetAppSystemInfo();
+	requestData.TaskSystemInfo := GetTaskSystemInfo();
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

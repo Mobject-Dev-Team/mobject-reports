@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="MyData" Id="{264df939-c8c0-44cf-8a22-e79407da6254}">
+    <Declaration><![CDATA[TYPE MyData :
+STRUCT
+	myBool : BOOL := TRUE;
+	myInt : INT := 123;
+	myReal : REAL := 0.123;
+	myString : STRING := 'test';
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

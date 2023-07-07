@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="AppSystemInfoStructure" Id="{551a9a0c-ff56-4a4f-a6b9-cd59b9cc9724}">
+    <Declaration><![CDATA[{attribute 'pack_mode' := '1'}
+TYPE AppSystemInfoStructure :
+STRUCT
+	TaskCnt : UDINT;
+	OnlineChangeCnt : UDINT;
+	Flags : DWORD;
+	AdsPort : UINT;
+	BootDataLoaded : BOOL;
+	OldBootData : BOOL;
+	AppTimestamp : DT;
+	KeepOutputsOnBP : BOOL;
+	ShutdownInProgress : BOOL;
+	LicensesPending : BOOL;
+	BSODOccured : BOOL;
+	LoggedIn : BOOL;
+	AppName : STRING(63);
+	ProjectName : STRING(63);
+	PersistentStatus : EPlcPersistentStatus;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

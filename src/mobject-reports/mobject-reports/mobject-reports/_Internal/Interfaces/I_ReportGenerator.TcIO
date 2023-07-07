@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_ReportGenerator" Id="{dac13197-b79f-445b-883b-d6ebecc14a5f}">
+    <Declaration><![CDATA[INTERFACE I_ReportGenerator
+]]></Declaration>
+    <Method Name="Generate" Id="{c75376d8-1bdf-4cd3-bfa6-9b18d3209753}">
+      <Declaration><![CDATA[METHOD PUBLIC Generate
+VAR_INPUT
+	SourceData : ANY;
+	TemplateName : T_MAXSTRING;
+	FileName : T_MAXSTRING;
+	FilePath : T_MAXSTRING;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
