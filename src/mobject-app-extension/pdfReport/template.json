@@ -1,5 +1,23 @@
 {
-    "content": [{
-        "text": "Machine Name: <%= myBool %>.  Other variable <%= $FileName %>"
-    }]
+    "content": [
+        {
+            "text": "The value of myBool was <%= myBool %> and the value of myInt was <%= myInt %>."
+        },
+        {
+            "text": "The value of myReal was <%= myReal %> and the value of myString was <%= myString %>."
+        },
+        {
+            "text": "pdfReport also includes 'internal' variables which can be used in the template."
+        },
+        {
+            "text": "For example the FileName, <%= $FileName %>.  Internal variables start with a $.  To discover all variables just call the Generate method and leave TemplateName blank"
+        },
+        {
+            "text": "This template can be styled and formatted by following the pdfmake guide. "
+        },
+        {
+            "text": "pdfmake",
+            "link": "http://pdfmake.org/#/"
+        }
+    ]
 }
