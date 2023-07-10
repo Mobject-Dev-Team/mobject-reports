@@ -3,21 +3,30 @@
   <POU Name="MAIN" Id="{ca1e1f26-6d15-4483-9500-7f4e2de7b73c}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	generate : BOOL;
+	generatePDF : BOOL;
 	myData : MyData;
 	pdfReport : PDFReport;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[pdfReport.CyclicCall();
-IF generate THEN
-	generate := FALSE;
+      <ST><![CDATA[// To run the demo you will need the following
+//
+// 1) you are running the mobject companion app, mobject-app
+// 2) you have copied the pdfReport folder in to the mobject app's extensions folder
+// 3) you have copied template.json to C:\temp\
+
+IF generatePDF THEN
+	generatePDF := FALSE;
 	pdfReport.Generate(
 		SourceData := myData,
 		TemplateName := 'C:\temp\template.json',
 		FileName := 'test.pdf',
 		FilePath := 'C:\temp\'
 	);
+END_IF
+
+IF pdfReport.Busy THEN
+	pdfReport.CyclicCall();
 END_IF]]></ST>
     </Implementation>
   </POU>
