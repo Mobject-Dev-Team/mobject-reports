@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.44">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.55">
 	<Project ProjectGUID="{1AF6932A-FF2C-458E-B4F4-9CB1DBA19ED1}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<Plc>
 			<Project GUID="{9A536E25-B34D-492C-8066-560EFC24D4B4}" Name="mobject-reports" PrjFilePath="mobject-reports\mobject-reports.plcproj" TmcFilePath="mobject-reports\mobject-reports.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>
