@@ -18,7 +18,7 @@
     <Company>mobject</Company>
     <Released>false</Released>
     <Title>mobject-reports</Title>
-    <ProjectVersion>0.1.0</ProjectVersion>
+    <ProjectVersion>0.2.0</ProjectVersion>
     <DefaultNamespace>mobject-reports</DefaultNamespace>
     <Placeholder>mobject-reports</Placeholder>
     <Author>mobject dev team</Author>
@@ -53,11 +53,6 @@
     <None Include="mobject-reports.tmc">
       <SubType>Content</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <LibraryReference Include="mobject-commands,0.2.0,mobject">
-      <Namespace>mobject_commands</Namespace>
-    </LibraryReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="_Internal" />
@@ -100,6 +95,11 @@
     <Compile Include="_Internal\PDFReport\DUT\PDFReportResponseStructure.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <LibraryReference Include="mobject-core,0.1.0,mobject">
+      <Namespace>mobject_core</Namespace>
+    </LibraryReference>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
